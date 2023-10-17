@@ -21,7 +21,9 @@ apt-get -y install --no-install-recommends build-essential git autoconf automake
 
 echo "\nRunning as $real_user\n"
 
-sudo -u $real_user <<EOF
+
+sudo -i -u $real_user bash << EOF
+cd /home/$real_user/
 git clone https://github.com/mikebrady/shairport-sync.git
 cd /home/$real_user/shairport-sync
 autoreconf -fi
@@ -30,6 +32,11 @@ autoreconf -fi
 make
 EOF
 
+echo "\nRunning as root\n"
+
+cd /home/$real_user/
 make install
+
+echo "\nRunning as $real_user\n"
 
 sudo -u $real_user shairport-sync
