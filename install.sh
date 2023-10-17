@@ -11,7 +11,7 @@ else
     real_user=$(whoami)
 fi
 
-echo "\nRunning as root\n"
+echo "\nUpdate, Upgrade, Install\n"
 
 apt update
 apt upgrade -y
@@ -19,10 +19,11 @@ apt-get -y install --no-install-recommends build-essential git autoconf automake
     libpopt-dev libconfig-dev libasound2-dev avahi-daemon libavahi-client-dev libssl-dev libsoxr-dev
 
 
-echo "\nRunning as $real_user\n"
+#echo "\nRunning as $real_user\n"
 
+echo "\nCloning and Make\n"
 
-sudo -i -u $real_user bash << EOF
+#sudo -i -u $real_user bash << EOF
 cd /home/$real_user/
 git clone https://github.com/mikebrady/shairport-sync.git
 cd /home/$real_user/shairport-sync
@@ -30,13 +31,19 @@ autoreconf -fi
 ./configure --sysconfdir=/etc --with-alsa \
     --with-soxr --with-avahi --with-ssl=openssl --with-systemd
 make
-EOF
+#EOF
 
-echo "\nRunning as root\n"
+echo "\nMake Install\n"
 
-cd /home/$real_user/
+#echo "\nRunning as root\n"
+
+#cd /home/$real_user/
 make install
 
-echo "\nRunning as $real_user\n"
+#echo "\nRunning as $real_user\n"
 
-sudo -u $real_user shairport-sync
+#sudo -u $real_user 
+
+echo "\nRun shairport-sync\n"
+
+shairport-sync
