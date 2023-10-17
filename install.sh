@@ -17,7 +17,7 @@ apt-get -y install --no-install-recommends build-essential git autoconf automake
     libpopt-dev libconfig-dev libasound2-dev avahi-daemon libavahi-client-dev libssl-dev libsoxr-dev
 
 
-sudo -u real_user <<EOF
+sudo -u $real_user <<EOF
 git clone https://github.com/mikebrady/shairport-sync.git
 cd /home/$real_user/shairport-sync
 autoreconf -fi
