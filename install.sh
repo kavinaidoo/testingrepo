@@ -11,11 +11,15 @@ else
     real_user=$(whoami)
 fi
 
+echo "\nRunning as root\n"
+
 apt update
 apt upgrade -y
 apt-get -y install --no-install-recommends build-essential git autoconf automake libtool \
     libpopt-dev libconfig-dev libasound2-dev avahi-daemon libavahi-client-dev libssl-dev libsoxr-dev
 
+
+echo "\nRunning as $real_user\n"
 
 sudo -u $real_user <<EOF
 git clone https://github.com/mikebrady/shairport-sync.git
