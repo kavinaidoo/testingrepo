@@ -16,12 +16,15 @@ apt upgrade -y
 apt-get -y install --no-install-recommends build-essential git autoconf automake libtool \
     libpopt-dev libconfig-dev libasound2-dev avahi-daemon libavahi-client-dev libssl-dev libsoxr-dev
 
-sudo -u $real_user git clone https://github.com/mikebrady/shairport-sync.git
-sudo -u $real_user cd shairport-sync
-sudo -u $real_user autoreconf -fi
-sudo -u $real_user ./configure --sysconfdir=/etc --with-alsa \
-    --with-soxr --with-avahi --with-ssl=openssl --with-systemd --with-airplay-2
-sudo -u $real_user make
+
+sudo -u real_user <<EOF
+git clone https://github.com/mikebrady/shairport-sync.git
+cd /home/$real_user/shairport-sync
+autoreconf -fi
+./configure --sysconfdir=/etc --with-alsa \
+    --with-soxr --with-avahi --with-ssl=openssl --with-systemd
+make
+EOF
 
 make install
 
