@@ -37,8 +37,8 @@ make install
 
 #Not adding nqptp as a service - enable in future
 #echo "\n* Enabling nqptp as a service *\n"
-#systemctl enable nqptp
-#systemctl start nqptp
+systemctl enable nqptp
+systemctl start nqptp
 
 
 echo "\n* Cloning, making and installing shairport-sync *\n"
@@ -54,17 +54,23 @@ make install
 
 #Not adding nqptp as a service - enable in future
 #echo "\n* Enabling shairport-sync as a service *\n"
-#systemctl enable shairport-sync
+systemctl enable shairport-sync
 
 
 
 #This section runs nqptp and shairport-sync immediately for testing
 
-echo "\n* Running nqptp and shairport-sync *\n"
+#echo "\n* Running nqptp and shairport-sync *\n"
 
 #running both simultaneously -> https://stackoverflow.com/a/52033580 - not working!
 #(trap 'kill 0' SIGINT; /home/$real_user/nqptp/nqptp & /home/$real_user/shairport-sync/shairport-sync & wait)
 
 #running both simultaneously -> https://stackoverflow.com/a/3004814
-/home/$real_user/nqptp/nqptp &
-/home/$real_user/shairport-sync/shairport-sync &
+#/home/$real_user/nqptp/nqptp &
+#/home/$real_user/shairport-sync/shairport-sync &
+
+#echo "\n* Rebooting in 5 seconds *\n"
+
+sleep 5
+
+reboot now
