@@ -19,4 +19,4 @@ mkdir mkdir UPS_HAT_C
 cd UPS_HAT_C
 curl -O https://raw.githubusercontent.com/kavinaidoo/pmap/dev/INA219.py
 
-python3 UPS_HAT_C/INA219.py
+python3 /home/$real_user/UPS_HAT_C/INA219.py
