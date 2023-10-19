@@ -11,7 +11,14 @@ else
     real_user=$(whoami)
 fi
 
-echo "\n**** Running apt update and upgrade ****\n"
+echo "\n Welcome to the shairport-sync AirPlay 2 installation script\n"
+echo " Usage of this script is at your own risk\n"
+echo " Script will reboot Pi once completed\n"
+echo " To stop it from running, press ctrl+c within the next 30 seconds\n"
+
+sleep 30
+
+echo "\n**** Running apt-get update and upgrade ****\n"
 
 apt update
 apt upgrade -y
@@ -35,8 +42,8 @@ autoreconf -fi
 make
 make install
 
-#Not adding nqptp as a service - enable in future
-#echo "\n* Enabling nqptp as a service *\n"
+#TODO - remove these lines when switching to manually starting nqptp
+echo "\n* Enabling nqptp as a service *\n"
 systemctl enable nqptp
 systemctl start nqptp
 
@@ -52,25 +59,13 @@ autoreconf -fi
 make
 make install
 
-#Not adding nqptp as a service - enable in future
-#echo "\n* Enabling shairport-sync as a service *\n"
+#TODO - remove these lines when switching to manually starting shairport-sync
+echo "\n* Enabling shairport-sync as a service *\n"
 systemctl enable shairport-sync
 
-
-
-#This section runs nqptp and shairport-sync immediately for testing
-
-#echo "\n* Running nqptp and shairport-sync *\n"
-
-#running both simultaneously -> https://stackoverflow.com/a/52033580 - not working!
-#(trap 'kill 0' SIGINT; /home/$real_user/nqptp/nqptp & /home/$real_user/shairport-sync/shairport-sync & wait)
-
-#running both simultaneously -> https://stackoverflow.com/a/3004814
-#/home/$real_user/nqptp/nqptp &
-#/home/$real_user/shairport-sync/shairport-sync &
-
-#echo "\n* Rebooting in 5 seconds *\n"
-
-sleep 5
+echo "\n**** Installation of shairport-sync completed ****\n"
+sleep 1
+echo "\n* Rebooting in 30 seconds *\n"
+sleep 30
 
 reboot now
