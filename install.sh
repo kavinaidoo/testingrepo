@@ -15,7 +15,7 @@ fi
 apt-get -y install python3-smbus 
 
 cd /home/$real_user/
-mkdir mkdir UPS_HAT_C
+mkdir UPS_HAT_C
 cd UPS_HAT_C
 curl -O https://raw.githubusercontent.com/kavinaidoo/pmap/dev/INA219.py
 
