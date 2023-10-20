@@ -27,6 +27,7 @@ cd pmap
 python -m venv --system-site-packages env
 source env/bin/activate
 pip3 install st7789
+deactivate
 
 curl -O https://raw.githubusercontent.com/kavinaidoo/pmap/dev/INA219.py
 curl -O https://raw.githubusercontent.com/kavinaidoo/pmap/dev/pmap.py
