@@ -24,13 +24,9 @@ cd /home/$real_user/
 mkdir pmap
 cd pmap
 
-python -m venv --system-site-packages env
-source /home/$real_user/pmap/env/bin/activate
-pip3 install st7789
-deactivate
+pip3 install st7789 --break-system-packages
 
 curl -O https://raw.githubusercontent.com/kavinaidoo/pmap/dev/INA219.py
 curl -O https://raw.githubusercontent.com/kavinaidoo/pmap/dev/pmap.py
-
 
 echo "\n**** installating dependencies and downloading pmap completed ****\n"
