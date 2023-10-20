@@ -25,7 +25,7 @@ mkdir pmap
 cd pmap
 
 python -m venv --system-site-packages env
-source env/bin/activate
+source /home/$real_user/pmap/env/bin/activate
 pip3 install st7789
 deactivate
 
