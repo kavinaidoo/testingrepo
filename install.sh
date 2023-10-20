@@ -18,12 +18,16 @@ apt-get -y install python3-smbus
 # required for st7789
 apt-get -y install python3-rpi.gpio python3-spidev python3-pip python3-pil python3-numpy
 # required for pmap.py
-pip3 install st7789
-
+apt-get -y install python3-venv
 
 cd /home/$real_user/
 mkdir pmap
 cd pmap
+
+python -m venv --system-site-packages env
+source env/bin/activate
+pip3 install st7789
+
 curl -O https://raw.githubusercontent.com/kavinaidoo/pmap/dev/INA219.py
 curl -O https://raw.githubusercontent.com/kavinaidoo/pmap/dev/pmap.py
 
