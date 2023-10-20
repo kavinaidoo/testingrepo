@@ -11,12 +11,21 @@ else
     real_user=$(whoami)
 fi
 
+echo "\n**** installing dependencies and downloading pmap ****\n"
 
-apt-get -y install python3-smbus 
+# required for INA219.py
+apt-get -y install python3-smbus
+# required for st7789
+apt-get -y install python3-rpi.gpio python3-spidev python3-pip python3-pil python3-numpy
+# required for pmap.py
+pip3 install st7789
+
 
 cd /home/$real_user/
-mkdir UPS_HAT_C
-cd UPS_HAT_C
+mkdir pmap
+cd pmap
 curl -O https://raw.githubusercontent.com/kavinaidoo/pmap/dev/INA219.py
+curl -O https://raw.githubusercontent.com/kavinaidoo/pmap/dev/pmap.py
 
-python3 /home/$real_user/UPS_HAT_C/INA219.py
+
+echo "\n**** installating dependencies and downloading pmap completed ****\n"
