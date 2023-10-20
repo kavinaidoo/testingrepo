@@ -18,7 +18,6 @@ apt-get -y install python3-smbus
 # required for st7789
 apt-get -y install python3-rpi.gpio python3-spidev python3-pip python3-pil python3-numpy
 # required for pmap.py
-apt-get -y install python3-venv
 
 cd /home/$real_user/
 mkdir pmap
