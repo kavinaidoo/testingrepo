@@ -11,21 +11,17 @@ else
     real_user=$(whoami)
 fi
 
-echo "\n**** installing dependencies and downloading pmap ****\n"
+# BEGIN enable i2c and spi and modifying config.txt ****************************************************
 
-# required for INA219.py
-apt-get -y install python3-smbus
-# required for st7789
-apt-get -y install python3-rpi.gpio python3-spidev python3-pip python3-pil python3-numpy
-# required for pmap.py
+echo "\n**** Enabling SPI and I2C using raspi-config ****\n"
 
-cd /home/$real_user/
-mkdir pmap
-cd pmap
+raspi-config nonint do_spi 0
+raspi-config nonint do_i2c 0
 
-pip3 install st7789 --break-system-packages
 
-curl -O https://raw.githubusercontent.com/kavinaidoo/pmap/dev/INA219.py
-curl -O https://raw.githubusercontent.com/kavinaidoo/pmap/dev/pmap.py
+echo "\n**** Adding lines to config.txt to recognize Pirate Audio pHAT ****\n"
 
-echo "\n**** installating dependencies and downloading pmap completed ****\n"
+echo "dtoverlay=hifiberry-dac" >> /boot/config.txt
+echo "gpio=25=op,dh" >> /boot/config.txt
+
+# END enable i2c and spi and modifying config.txt ****************************************************
