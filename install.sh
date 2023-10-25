@@ -14,10 +14,12 @@ fi
 echo "\n**** installating ubuntu font ****\n"
 
 cd /home/$real_user/pmap
-mkdir fonts
-cd /home/$real_user/pmap/fonts
 
 curl -O https://github.com/google/fonts/raw/main/ufl/ubuntu/Ubuntu-Regular.ttf
+
+mkdir ubuntu_font_docs
+cd /home/$real_user/pmap/ubuntu_font_docs
+
 curl -O https://raw.githubusercontent.com/google/fonts/main/ufl/ubuntu/COPYRIGHT.txt
 curl -O https://raw.githubusercontent.com/google/fonts/main/ufl/ubuntu/TRADEMARKS.txt
 curl -O https://raw.githubusercontent.com/google/fonts/main/ufl/ubuntu/UFL.txt
