@@ -18,8 +18,9 @@ echo " Do not make any changes to config.txt before running this script\n"
 echo " The following will be set up:"
 echo " * I2S, SPI and config.txt\n"
 echo " The following will be installed:"
-echo " * shairport-sync with AirPlay 2 enabled"
-echo " * pmap with basic functionality\n"
+echo " * shairport-sync enabling AirPlay 2"
+echo " * raspotify enabling Spotify Connect"
+echo " * pmap enabling button and screen control\n"
 echo " Script will reboot Pi once completed\n"
 echo " To stop it from running, press ctrl+c within the next 30 seconds\n"
 
@@ -65,12 +66,6 @@ autoreconf -fi
 make
 make install
 
-#TODO - remove these lines when switching to manually starting nqptp
-#echo "\n* Enabling nqptp as a service *\n"
-#systemctl enable nqptp
-#systemctl start nqptp
-
-
 echo "\n* Cloning, making and installing shairport-sync *\n"
 
 cd /home/$real_user/
@@ -81,10 +76,6 @@ autoreconf -fi
     --with-soxr --with-avahi --with-ssl=openssl --with-systemd --with-airplay-2
 make
 make install
-
-#TODO - remove these lines when switching to manually starting shairport-sync
-#echo "\n* Enabling shairport-sync as a service *\n"
-#systemctl enable shairport-sync
 
 echo "\n**** Installation of shairport-sync completed ****\n"
 
@@ -122,8 +113,10 @@ mkdir pmap
 cd pmap
 
 curl -O https://raw.githubusercontent.com/kavinaidoo/pmap/main/INA219.py
-curl -O https://raw.githubusercontent.com/kavinaidoo/pmap/main/pmap.py
-curl -O https://raw.githubusercontent.com/kavinaidoo/pmap/main/config.json
+curl -O https://raw.githubusercontent.com/kavinaidoo/pmap/dev/pmap.py
+curl -O https://raw.githubusercontent.com/kavinaidoo/pmap/dev/config.json
+
+sed -i 's|/home/pi|/home/$real_user|g' pmap.py
 
 #installating ubuntu font
 
@@ -162,6 +155,9 @@ echo "\n**** Setting up pmap as a service ****\n"
 
 cd /etc/systemd/system/
 curl -O https://raw.githubusercontent.com/kavinaidoo/pmap/main/pmap.service
+
+sed -i "s|/home/pi|/home/$real_user|g" pmap.service # https://askubuntu.com/questions/76808/how-do-i-use-variables-in-a-sed-command
+sed -i "s|User=pi|User=$real_user|g" pmap.service
 
 systemctl daemon-reload
 systemctl enable pmap.service
