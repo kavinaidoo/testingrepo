@@ -11,10 +11,10 @@ else
     real_user=$(whoami)
 fi
 
-echo "\n Welcome to the pmap installation script\n"
+echo -e "\n Welcome to the \033[0;36mpmap\033[0m installation script\n"
 echo " Usage of this script is at your own risk\n"
 echo " Designed for Raspberry Pi OS Lite (32-bit Bookworm) on Pi Zero 2 W\n"
-echo " Do not make any changes to config.txt before running this script\n"
+echo -e " \033[1;31mDo not\033[0m make any changes to config.txt before running this script\n"
 echo " The following will be set up:"
 echo " * I2S, SPI and config.txt\n"
 echo " The following will be installed:"
@@ -26,19 +26,19 @@ echo " To stop it from running, press ctrl+c within the next 30 seconds\n"
 
 sleep 30
 
-echo "\n**** Running apt-get update and upgrade ****\n"
+echo -e "\033[0;36m\n**** Running apt-get update and upgrade ****\033[0m\n"
 
 apt-get update
 apt-get upgrade -y
 
 # BEGIN enable i2c and spi and modifying config.txt ****************************************************
 
-echo "\n**** Enabling SPI and I2C using raspi-config ****\n"
+echo -e "\033[0;36m\n**** Enabling SPI and I2C using raspi-config ****\033[0m\n"
 
 raspi-config nonint do_spi 0
 raspi-config nonint do_i2c 0
 
-echo "\n**** Adding lines to config.txt to recognize Pirate Audio pHAT ****\n"
+echo -e "\033[0;36m\n**** Adding lines to config.txt to recognize Pirate Audio pHAT ****\033[0m\n"
 
 echo "dtoverlay=hifiberry-dac" >> /boot/config.txt
 echo "gpio=25=op,dh" >> /boot/config.txt
@@ -48,15 +48,15 @@ echo "gpio=25=op,dh" >> /boot/config.txt
 # BEGIN shairport-sync installation ****************************************************
 # Install Steps have been replicated from -> https://github.com/mikebrady/shairport-sync/blob/master/BUILD.md
 
-echo "\n**** Installing shairport-sync ****\n"
+echo -e "\033[0;36m\n**** Installing shairport-sync ****\033[0m\n"
 
-echo "\n* Installing Requirements *\n"
+echo -e "\033[0;36m\n* Installing Requirements *\033[0m\n"
 
 apt-get -y install --no-install-recommends build-essential git autoconf automake libtool \
     libpopt-dev libconfig-dev libasound2-dev avahi-daemon libavahi-client-dev libssl-dev libsoxr-dev \
     libplist-dev libsodium-dev libavutil-dev libavcodec-dev libavformat-dev uuid-dev libgcrypt-dev xxd
 
-echo "\n* Cloning, making and installing nqptp *\n"
+echo -e "\033[0;36m\n* Cloning, making and installing nqptp *\033[0m\n"
 
 cd /home/$real_user/
 git clone https://github.com/mikebrady/nqptp.git
@@ -66,7 +66,7 @@ autoreconf -fi
 make
 make install
 
-echo "\n* Cloning, making and installing shairport-sync *\n"
+echo -e "\033[0;36m\n* Cloning, making and installing shairport-sync *\033[0m\n"
 
 cd /home/$real_user/
 git clone https://github.com/mikebrady/shairport-sync.git
@@ -77,13 +77,13 @@ autoreconf -fi
 make
 make install
 
-echo "\n**** Installation of shairport-sync completed ****\n"
+echo -e "\033[0;36m\n**** Installation of shairport-sync completed ****\033[0m\n"
 
 # END shairport-sync installation ****************************************************
 
 # BEGIN raspotify installation ****************************************************
 
-echo "\n**** Installing raspotify ****\n"
+echo -e "\033[0;36m\n**** Installing raspotify ****\033[0m\n"
 
 curl -sL https://dtcooper.github.io/raspotify/install.sh | sh
 
@@ -95,7 +95,7 @@ systemctl disable raspotify.service
 
 # BEGIN pmap installation ****************************************************
 
-echo "\n**** Installing dependencies and downloading pmap ****\n"
+echo -e "\033[0;36m\n**** Installing dependencies and downloading pmap ****\033[0m\n"
 
 # required for INA219.py
 apt-get -y install python3-smbus
@@ -145,13 +145,13 @@ curl -O https://raw.githubusercontent.com/kavinaidoo/pmap/main/pmap_icons_licens
 # End
 EOF
 
-echo "\n**** Installating dependencies and downloading pmap completed ****\n"
+echo -e "\033[0;36m\n**** Installating dependencies and downloading pmap completed ****\033[0m\n"
 
 # END pmap installation ****************************************************
 
 # START setting up pmap as a service ****************************************************
 
-echo "\n**** Setting up pmap as a service ****\n"
+echo -e "\033[0;36m\n**** Setting up pmap as a service ****\033[0m\n"
 
 cd /etc/systemd/system/
 curl -O https://raw.githubusercontent.com/kavinaidoo/pmap/dev/pmap/pmap.service
@@ -162,11 +162,11 @@ sed -i "s|User=pi|User=$real_user|g" pmap.service
 systemctl daemon-reload
 systemctl enable pmap.service
 
-echo "\n**** Setting up pmap as a service completed ****\n"
+echo -e "\033[0;36m\n**** Setting up pmap as a service completed ****\033[0m\n"
 
 # END setting up pmap as a service ****************************************************
 
-echo "\n* Rebooting in 30 seconds *\n"
+echo -e "\033[0;36m\n* Rebooting in 30 seconds *\033[0m\n"
 sleep 30
 
 reboot now
