@@ -26,10 +26,10 @@ echo " To stop it from running, press ctrl+c within the next 30 seconds\n"
 
 sleep 30
 
-echo "\n**** Running apt update and upgrade ****\n"
+echo "\n**** Running apt-get update and upgrade ****\n"
 
-apt update
-apt upgrade -y
+apt-get update
+apt-get upgrade -y
 
 # BEGIN enable i2c and spi and modifying config.txt ****************************************************
 
