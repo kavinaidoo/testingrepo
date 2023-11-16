@@ -102,8 +102,8 @@ apt-get -y install bluez-alsa-utils
 
 # disabling services. bluealsa will be called by user action
 
-sudo systemctl disable bluealsa.service
-sudo systemctl disable bluealsa-aplay.service
+systemctl disable bluealsa.service
+systemctl disable bluealsa-aplay.service
 
 apt-get -y install bluez-tools
 
