@@ -18,9 +18,7 @@ echo " \033[1;31mDo not\033[0m make any changes to config.txt before running thi
 echo " The following will be set up:"
 echo " * I2S, SPI and config.txt\n"
 echo " The following will be installed:"
-echo " * shairport-sync enabling AirPlay 2"
-echo " * raspotify enabling Spotify Connect"
-echo " * pmap enabling button and screen control\n"
+echo " * pmap (and dependencies)\n"
 echo " Script will reboot Pi once completed\n"
 echo " To stop it from running, press ctrl+c within the next 30 seconds\n"
 
@@ -91,7 +89,29 @@ curl -sL https://dtcooper.github.io/raspotify/install.sh | sh
 
 systemctl disable raspotify.service
 
+echo "\033[0;36m\n**** Installation of raspotify completed ****\033[0m\n"
+
 # END raspotify installation ****************************************************
+
+
+# BEGIN bluetooth installation ****************************************************
+
+echo "\033[0;36m\n**** Installing Bluetooth support ****\033[0m\n"
+
+apt-get -y install bluez-alsa-utils
+
+# disabling services. bluealsa will be called by user action
+
+sudo systemctl disable bluealsa.service
+sudo systemctl disable bluealsa-aplay.service
+
+apt-get -y install bluez-tools
+
+echo "\033[0;36m\n**** Installation of Bluetooth support completed ****\033[0m\n"
+
+# BEGIN bluez-alsa-utils installation ****************************************************
+
+
 
 # BEGIN pmap installation ****************************************************
 
@@ -101,10 +121,14 @@ echo "\033[0;36m\n**** Installing dependencies and downloading pmap ****\033[0m\
 apt-get -y install python3-smbus
 # required for st7789
 apt-get -y install python3-rpi.gpio python3-spidev python3-pip python3-pil python3-numpy
-# required for pmap.py
+# required for pmap.py - allows control of GPIO
 apt-get -y install python3-gpiozero
-
+# required for pmap.py - allows communication with screen
 pip3 install st7789 --break-system-packages
+# required for pmap.py - allows control of network connections
+pip3 install nmcli --break-system-packages
+# required for pmap.py - creates webserver that is used to set up pmap
+pip3 install simple_http_server --break-system-packages
 
 sudo -u "$real_user" bash <<EOF #run the following commands as $real_user https://unix.stackexchange.com/a/231986
 
@@ -112,11 +136,14 @@ cd /home/$real_user/
 mkdir pmap
 cd pmap
 
-curl -O https://raw.githubusercontent.com/kavinaidoo/pmap/dev/pmap/INA219.py
-curl -O https://raw.githubusercontent.com/kavinaidoo/pmap/dev/pmap/pmap.py
-curl -O https://raw.githubusercontent.com/kavinaidoo/pmap/dev/pmap/config.json
+curl -O https://raw.githubusercontent.com/kavinaidoo/pmap/main/pmap/INA219.py
+curl -O https://raw.githubusercontent.com/kavinaidoo/pmap/main/pmap/pmap.py
+curl -O https://raw.githubusercontent.com/kavinaidoo/pmap/main/pmap/config.json
+curl -O https://raw.githubusercontent.com/kavinaidoo/pmap/main/pmap/pmap_network.py
+curl -O https://raw.githubusercontent.com/kavinaidoo/pmap/main/pmap/index.html
 
 sed -i 's|/home/pi|/home/$real_user|g' pmap.py
+sed -i 's|/home/pi|/home/$real_user|g' pmap_network.py
 
 #installating ubuntu font
 
@@ -135,7 +162,7 @@ curl -O https://raw.githubusercontent.com/google/fonts/main/ufl/ubuntu/UFL.txt
 
 cd /home/$real_user/pmap
 
-curl -O https://raw.githubusercontent.com/kavinaidoo/pmap/dev/pmap/pmap_icons.ttf
+curl -O https://raw.githubusercontent.com/kavinaidoo/pmap/main/pmap/pmap_icons.ttf
 mkdir pmap_icons_license_etc
 cd /home/$real_user/pmap/pmap_icons_license_etc
 
@@ -154,7 +181,7 @@ echo "\033[0;36m\n**** Installating dependencies and downloading pmap completed 
 echo "\033[0;36m\n**** Setting up pmap as a service ****\033[0m\n"
 
 cd /etc/systemd/system/
-curl -O https://raw.githubusercontent.com/kavinaidoo/pmap/dev/pmap/pmap.service
+curl -O https://raw.githubusercontent.com/kavinaidoo/pmap/main/pmap/pmap.service
 
 sed -i "s|/home/pi|/home/$real_user|g" pmap.service # https://askubuntu.com/questions/76808/how-do-i-use-variables-in-a-sed-command
 sed -i "s|User=pi|User=$real_user|g" pmap.service
@@ -166,7 +193,7 @@ echo "\033[0;36m\n**** Setting up pmap as a service completed ****\033[0m\n"
 
 # END setting up pmap as a service ****************************************************
 
-echo "\033[0;36m\n* Rebooting in 30 seconds *\033[0m\n"
-sleep 30
+echo "\033[0;36m\n* Installation completed, rebooting in 5 seconds *\033[0m\n"
+sleep 5
 
 reboot now
