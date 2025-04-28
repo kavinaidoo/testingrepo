@@ -59,29 +59,6 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event) {
-  var toggleButton = document.getElementById('toggle-play-pause');
-  var rewind10Button = document.getElementById('rewind-10');
-  var rewind30Button = document.getElementById('rewind-30');
-
-  toggleButton.addEventListener('click', function() {
-    if (player.getPlayerState() === YT.PlayerState.PLAYING) {
-      player.pauseVideo();
-    } else {
-      player.playVideo();
-    }
-  });
-
-  rewind10Button.addEventListener('click', function() {
-    var currentTime = player.getCurrentTime();
-    var newTime = Math.max(0, currentTime - 10);
-    player.seekTo(newTime, true);
-  });
-
-  rewind30Button.addEventListener('click', function() {
-    var currentTime = player.getCurrentTime();
-    var newTime = Math.max(0, currentTime - 30);
-    player.seekTo(newTime, true);
-  });
 
   window.addEventListener('keydown', function(event) {
     if (event.altKey) {
@@ -101,6 +78,11 @@ function onPlayerReady(event) {
         event.preventDefault();
         var currentTime = player.getCurrentTime();
         var newTime = Math.max(0, currentTime - 30);
+        player.seekTo(newTime, true);
+      } else if (event.code === 'Digit4') {
+        event.preventDefault();
+        var currentTime = player.getCurrentTime();
+        var newTime = Math.min(player.getDuration(), currentTime + 5);
         player.seekTo(newTime, true);
       }
     }
@@ -142,7 +124,7 @@ function onPlayerError(event) {
               {
                 type: "paragraph",
                 data: {
-                    text: "⌥ + 1 = Play/Pause, ⌥ + 2 = Rewind 10s, ⌥ + 3 = Rewind 30s"
+                    text: "⌥ + 1 = ⏯️, ⌥ + 2 = ⏪️ 10s, ⌥ + 3 = ⏪️ 30s, ⌥ + 4 = ⏩ 5s,"
                 }
               },
               {
