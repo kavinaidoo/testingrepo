@@ -52,7 +52,6 @@ function onYouTubeIframeAPIReady() {
     },
     events: {
       'onReady': onPlayerReady,
-      'onStateChange': onPlayerStateChange,
       'onError': onPlayerError
     }
   });
@@ -109,13 +108,13 @@ function onPlayerError(event) {
               {
                   type: "paragraph",
                   data: {
-                      text: "macOS Keyboard Shortcuts:"
+                      text: "Keyboard Shortcuts (non-macOS, use ALT instead of ⌥):"
                   }
               },
               {
                 type: "paragraph",
                 data: {
-                    text: "⌥ + 1 = ⏯️, ⌥ + 2 = ⏪️ 10s, ⌥ + 3 = ⏪️ 30s, ⌥ + 4 = ⏩ 5s,"
+                    text: "⌥1 = ⏯️, ⌥2 = ⏪️ 10s, ⌥3 = ⏪️ 30s, ⌥4 = ⏩ 5s,"
                 }
               },
               {
