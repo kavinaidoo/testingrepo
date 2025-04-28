@@ -89,15 +89,6 @@ function onPlayerReady(event) {
   }, true);
 }
 
-function onPlayerStateChange(event) {
-  var toggleButton = document.getElementById('toggle-play-pause');
-  if (event.data === YT.PlayerState.PLAYING) {
-    toggleButton.textContent = 'Pause';
-  } else if (event.data === YT.PlayerState.PAUSED) {
-    toggleButton.textContent = 'Play';
-  }
-}
-
 function onPlayerError(event) {
   console.log('Player error:', event.data);
 }
